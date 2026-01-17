@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>HIRMANO YT</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI',sans-serif;
+}
+
+body{
+  background:black;
+  height:100vh;
+  overflow:hidden;
+  color:white;
+}
+
+/* ===== STARS ===== */
+canvas{
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:-1;
+}
+
+/* ===== CARD ===== */
+.card{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:340px;
+  padding:35px;
+  border-radius:25px;
+  text-align:center;
+  backdrop-filter:blur(15px);
+  background:rgba(255,255,255,0.08);
+  box-shadow:0 0 50px rgba(255,0,0,0.5);
+  animation:enter 1.5s ease;
+}
+
+@keyframes enter{
+  from{opacity:0;transform:translate(-50%,-40%);}
+  to{opacity:1;transform:translate(-50%,-50%);}
+}
+
+.profile{
+  width:150px;
+  height:150px;
+  border-radius:50%;
+  border:4px solid red;
+  object-fit:cover;
+  animation:float 3s ease-in-out infinite;
+}
+
+@keyframes float{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-15px);}
+}
+
+h1{
+  margin:15px 0;
+  color:red;
+  letter-spacing:2px;
+}
+
+/* ===== BUTTONS ===== */
+.btn{
+  width:100%;
+  margin-top:15px;
+  padding:15px;
+  font-size:18px;
+  border-radius:50px;
+  border:none;
+  color:white;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.btn:hover{
+  transform:scale(1.1);
+}
+
+.youtube{
+  background:linear-gradient(90deg,red,darkred);
+  animation:pulse 1.8s infinite;
+}
+
+.instagram{
+  background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);
+}
+
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(255,0,0,.7);}
+  70%{box-shadow:0 0 0 18px rgba(255,0,0,0);}
+  100%{box-shadow:0 0 0 0 rgba(255,0,0,0);}
+}
+
+/* ===== TOP BUTTONS ===== */
+.top{
+  position:fixed;
+  top:15px;
+  right:15px;
+  display:flex;
+  gap:10px;
+}
+
+.top button{
+  padding:8px 14px;
+  border-radius:20px;
+  border:none;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="stars"></canvas>
+
+<div class="top">
+  <button onclick="toggleLang()">🌍</button>
+  <button onclick="toggleMusic()">🎵</button>
+</div>
+
+<!-- MUSIC -->
+<audio id="music" loop autoplay muted>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card">
+  <img src="sora.jpg" class="profile">
+  <h1>HIRMANO YT</h1>
+
+  <a href="https://www.youtube.com/@rayangimre1" target="_blank">
+    <button class="btn youtube" id="yt">🔥 دخول إلى YouTube 🔥</button>
+  </a>
+
+  <a href="https://www.instagram.com/zirox_05_x1?igsh=ZGJuMndwbTg0eTlz" target="_blank">
+    <button class="btn instagram" id="ig">📸 Instagram</button>
+  </a>
+</div>
+
+<script>
+/* ===== STARS ===== */
+const canvas=document.getElementById("stars");
+const ctx=canvas.getContext("2d");
+canvas.width=innerWidth;
+canvas.height=innerHeight;
+
+let stars=[];
+for(let i=0;i<250;i++){
+  stars.push({
+    x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height,
+    r:Math.random()*1.5,
+    s:Math.random()*0.6+0.2
+  });
+}
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle="white";
+  stars.forEach(st=>{
+    ctx.beginPath();
+    ctx.arc(st.x,st.y,st.r,0,Math.PI*2);
+    ctx.fill();
+    st.y-=st.s;
+    if(st.y<0) st.y=canvas.height;
+  });
+  requestAnimationFrame(animate);
+}
+animate();
+
+/* ===== MUSIC ===== */
+const music=document.getElementById("music");
+function toggleMusic(){
+  music.muted=!music.muted;
+  music.volume=0.4;
+}
+
+/* ===== LANGUAGE ===== */
+let ar=true;
+function toggleLang(){
+  ar=!ar;
+  document.getElementById("yt").innerText=ar?"🔥 دخول إلى YouTube 🔥":"🔥 Visit YouTube 🔥";
+  document.getElementById("ig").innerText=ar?"📸 Instagram":"📸 Instagram Page";
+}
+</script>
+
+</body>
+</html>
